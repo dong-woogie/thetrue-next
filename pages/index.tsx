@@ -1,15 +1,24 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { getProduct } from "../apis";
 import styles from "../styles/Home.module.css";
 
 export async function getStaticProps() {
+  const product = await getProduct(347);
   return {
-    props: {},
+    props: { product },
   };
 }
 
-const Home: NextPage = () => {
+interface HomeProps {
+  product: {
+    id: number;
+    product_name: string;
+  };
+}
+
+const Home: NextPage<HomeProps> = ({ product }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -19,6 +28,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
+        <div>{product.product_name}</div>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>

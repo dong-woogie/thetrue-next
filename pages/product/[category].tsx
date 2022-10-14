@@ -1,62 +1,35 @@
-import axios from "axios";
-import { NextPage } from "next";
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import Link from "next/link";
+import React from "react";
 import { getProductList } from "../../apis";
-import { productListState } from "../../states";
 
-interface Product {
-  id: number;
-}
-
-interface ProductProps {
+interface ProductListProps {
   productList: {
-    params: {
-      [key: string]: string;
-    };
-    value: Product[];
-  };
+    id: number;
+    product_name: string;
+  }[];
 }
 
-function Product({ productList }: ProductProps) {
-  const router = useRouter();
-  const { category = "all" }: { category?: string } = router.query;
-  const [recoilProductList, setRecoilProductList] = useRecoilState(
-    productListState({ category })
-  );
-
-  useEffect(() => {
-    if (recoilProductList.length > 0) return;
-    if (!productList.value) return;
-    if (productList.value.length === 0) return;
-    setRecoilProductList(productList.value);
-  }, [productList.value, recoilProductList.length, setRecoilProductList]);
-
+function ProductList({ productList }: ProductListProps) {
   return (
     <div>
-      {recoilProductList.map((product) => (
-        <li key={product.id}>{product.id}</li>
+      {productList.map((product) => (
+        <Link href={`/product/detail/${product.id}`} key={product.id}>
+          <li>{product.product_name}</li>
+        </Link>
       ))}
     </div>
   );
 }
 
-export async function getServerSideProps(ctx: any) {
-  const { category } = ctx.query;
+export async function getServerSideProps(context: any) {
+  const { category } = context.query;
 
-  const productList = await getProductList({
-    category,
-  });
-
+  const productList = await getProductList({ category });
   return {
     props: {
-      productList: {
-        params: { category },
-        value: productList,
-      },
+      productList,
     },
   };
 }
 
-export default Product;
+export default ProductList;
