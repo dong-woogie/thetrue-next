@@ -1,24 +1,9 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import { getProduct } from "../apis";
-import styles from "../styles/Home.module.css";
+import type { NextPage } from 'next'
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
 
-export async function getStaticProps() {
-  const product = await getProduct(347);
-  return {
-    props: { product },
-  };
-}
-
-interface HomeProps {
-  product: {
-    id: number;
-    product_name: string;
-  };
-}
-
-const Home: NextPage<HomeProps> = ({ product }) => {
+const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
@@ -28,13 +13,12 @@ const Home: NextPage<HomeProps> = ({ product }) => {
       </Head>
 
       <main className={styles.main}>
-        <div>{product.product_name}</div>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{" "}
+          Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
@@ -75,14 +59,14 @@ const Home: NextPage<HomeProps> = ({ product }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{" "}
+          Powered by{' '}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
