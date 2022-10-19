@@ -6,8 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:production": "docker run -p 3000:3000 thetrue-next",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "docker": "docker build . -t thetrue-next"
   },
   "dependencies": {
     "next": "12.3.1",
